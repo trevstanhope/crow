@@ -56,22 +56,37 @@ if [ $ans = n -o $ans = N -o $ans = no -o $ans = No -o $ans = NO ]
         echo "Aborting..."
 fi
 
+# FFMPEG
+read -p "Install FFMPEG? [y/n] " ans
+if [ $ans = y -o $ans = Y -o $ans = yes -o $ans = Yes -o $ans = YES ]
+then
+    echo "Running fix for AVformat ..."
+    ./configure
+    tar xvjf ffmpeg-2.8.1.tar.bz2 && cd ffmpeg-2.8.1
+    ./configure
+    make
+    make install
+    cd ..
+fi
+if [ $ans = n -o $ans = N -o $ans = no -o $ans = No -o $ans = NO ]
+then
+    echo "Aborting..."
+fi
+
 # OpenCV
 read -p "Recompile OpenCV? [y/n] " ans
 if [ $ans = y -o $ans = Y -o $ans = yes -o $ans = Yes -o $ans = YES ]
 then
     echo "Running fix for AVformat ..."
-    cd /usr/include/linux
-    ln -s ../libv4l1-videodev.h videodev.h
-    ln -s ../libavformat/avformat.h avformat.h
-    echo "Installing OpenCV ..."
-    mkdir $BUILD_PATH && cd $BUILD_PATH
-    wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.9/opencv-2.4.9.zip
+    ln -s /usr/include/linux/libv4l1-videodev.h videodev.h
+    ln -s /usr/include/linux/libavformat/avformat.h avformat.h
+    echo "Installing OpenCV ..." 
     unzip -qq opencv-2.4.9.zip && cd opencv-2.4.9
     mkdir release && cd release
     cmake -D CMAKE_BUILD_TYPE=RELEASE CMAKE_INSTALL_PREFIX=/usr/local ..
     make -j4
     make install
+    cd ..
 fi
 if [ $ans = n -o $ans = N -o $ans = no -o $ans = No -o $ans = NO ]
 then

@@ -1,4 +1,7 @@
 *~
+!build/opencv.2.4.9.zip
+!build/ffmpeg-2.8.1.tar!ffmpeg.tar.bz2
+
 # Compiled Object files
 *.slo
 *.lo
